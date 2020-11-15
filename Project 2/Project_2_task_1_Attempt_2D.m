@@ -7,19 +7,28 @@ clc;
 %-----------------------------
 % number of samples of each class
 s = 100;
-q = .5; % offset of classes
-% define 4 clusters of input data
 
-A = [rand(1,s)-q, rand(1,s)+q,
-     rand(1,s)+q, rand(1,s)-q];
+% Covariance
+Sigma=[0.075 0.075];
 
-B = [rand(1,s)-q, rand(1,s)+q,
-     rand(1,s)-q, rand(1,s)+q];
+A1=mvnrnd([0,0],Sigma,s);
+A2=mvnrnd([1,1],Sigma,s);
+B1=mvnrnd([0,1],Sigma,s);
+B2=mvnrnd([1,0],Sigma,s);
 
+A = [A1; A2]'
+B = [B1; B2]'
 
-% Input p, and A and B as different classes
 p = [A B];
 t = [ones(1,size(A,2)),-1*ones(1,size(B,2))];
+
+
+%-----------------------------
+%      Plotting Parameters
+%-----------------------------
+val_min = -0.5;
+val_max =  1.5;
+step = 0.1
 
 %-----------------------------
 %      Network Settings
@@ -567,4 +576,3 @@ sgtitle('5 Layers, 45 Neurons Network with different Learning Rates')
 saveas(figure(i_fig), "Graph_" + i_fig + ".jpg");
 close(figure(i_fig));
 i_fig = i_fig + 1
-
