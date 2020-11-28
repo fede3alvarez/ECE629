@@ -49,6 +49,7 @@ i_fig = i_fig + 1;
 %              K-Means Calculations
 %------------------------------------------------
 
+% Loop / Repeat for different values of k
 for k = 2:10
 
     % Plots data points in the background
@@ -65,12 +66,13 @@ for k = 2:10
     hold on
     grid on
 
-    % 
-    [idx, centroids] = kmeans(p, k);
-
-    % graph_color = {'k','b','r','g','m','c','y','color 1','color 2','color 3'};
+    % Graph Color (Ensure each cluter is a different color for visualization) 
     cmap = colormap(colorcube(11));
 
+    % K-means actual calculation / command
+    [idx, centroids] = kmeans(p, k);
+
+    % Plot each cluster
     for clusters = 1:k    
         % Find specific cluster and points
         curr_cluster = find(idx == clusters);
@@ -80,13 +82,14 @@ for k = 2:10
         plot(p_i(:,1), p_i(:,2),'o','color',cmap(clusters,:),'MarkerSize',12,'LineWidth',2);
         hold on
 
-        % Plot Cluster Centroid
+        % Plot Cluster Centroid in White background (for visualization)
         plot(centroids(clusters,1),centroids(clusters,2),'wx','MarkerSize',12,'LineWidth',6);
         hold on
         plot(centroids(clusters,1),centroids(clusters,2),'x','color',cmap(clusters,:),'MarkerSize',10,'LineWidth',3);
 
     end
 
+    % Save Graph and update figure number
     title(k + " K-Clusters");
     saveas(figure(i_fig), "Graph_" + i_fig + ".jpg");
     close(figure(i_fig));
